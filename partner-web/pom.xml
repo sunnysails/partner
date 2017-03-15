@@ -36,4 +36,17 @@
             <artifactId>spring-webmvc</artifactId>
         </dependency>
     </dependencies>
+    <build>
+        <finalName>partner-web</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
