@@ -8,9 +8,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.kaishengit</groupId>
     <artifactId>partner-util</artifactId>
     <packaging>jar</packaging>
-
+    <version>1.0</version>
+    
     <name>partner-util</name>
     <url>http://maven.apache.org</url>
 

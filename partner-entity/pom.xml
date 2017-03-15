@@ -7,8 +7,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.kaishengit</groupId>
     <artifactId>partner-entity</artifactId>
     <packaging>jar</packaging>
+    <version>1.0</version>
 
     <name>partner-entity</name>
     <url>http://maven.apache.org</url>
