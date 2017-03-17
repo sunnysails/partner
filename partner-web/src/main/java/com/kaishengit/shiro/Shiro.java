@@ -25,6 +25,6 @@ public class Shiro extends ShiroUtil {
      * @return
      */
 /*    public static boolean isSales() {
-        return SecurityUtils.getSubject().hasRole("role_administrator");
+        return SecurityUtils.getSubject().hasRole("管理员");
     }*/
 }

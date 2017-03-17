@@ -2,6 +2,7 @@ package com.kaishengit.shiro;
 
 
 import com.kaishengit.pojo.User;
+import com.kaishengit.service.RoleService;
 import com.kaishengit.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -19,6 +20,9 @@ import org.springframework.stereotype.Component;
 public class ShrioDbRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
+
     /**
      * 权限认证
      *
@@ -31,9 +35,9 @@ public class ShrioDbRealm extends AuthorizingRealm {
         User user = (User) principalCollection.getPrimaryPrincipal();
         //获取当前对象拥有的角色
         String roleName = user.getRole().getRoleName();
-        if (roleName.isEmpty()){
+        if (roleName.isEmpty()) {
             return null;
-        }else {
+        } else {
             SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
             authorizationInfo.addRole(roleName);
             return authorizationInfo;
@@ -53,7 +57,7 @@ public class ShrioDbRealm extends AuthorizingRealm {
         String userName = usernamePasswordToken.getUsername();
         User user = userService.findByUserName(userName);
         if (user != null) {
-            return new SimpleAuthenticationInfo(user, user.getPassword(),getName());
+            return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
         }
         return null;
     }
