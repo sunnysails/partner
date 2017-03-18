@@ -1,14 +1,17 @@
 package com.kaishengit.controller;
 
 import com.google.common.collect.Maps;
+import com.kaishengit.dto.AjaxResult;
 import com.kaishengit.dto.DataTablesResult;
+import com.kaishengit.pojo.Role;
 import com.kaishengit.pojo.User;
+import com.kaishengit.service.RoleService;
 import com.kaishengit.service.UserService;
+import com.kaishengit.shiro.ShiroUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -22,36 +25,106 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     @GetMapping("/list")
-    public String listUser() {
+    public String listUser(Model model) {
+        List<Role> roleList = roleService.findAll();
+        model.addAttribute("roleList", roleList);
         return "user/list";
     }
 
+    /**
+     * 进入用户列表界面
+     *
+     * @param model
+     * @return
+     */
     @GetMapping
-    public String User() {
+    public String User(Model model) {
+        List<Role> roleList = roleService.findAll();
+        model.addAttribute("roleList", roleList);
         return "user/list";
     }
 
-    /*    @GetMapping("/user/load")
-        @ResponseBody
-        public AjaxResult loadUser(Model model){
-            List<User> userList = userService.findAll();
-            model.addAttribute("userLIst",userList);
-            return new AjaxResult(model);
-        }*/
-    @GetMapping("/load")
+    /**
+     * 读取用户列表
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/load/user")
     @ResponseBody
     public DataTablesResult loadUser(HttpServletRequest request) {
         String draw = request.getParameter("draw");
         String start = request.getParameter("start");
         String length = request.getParameter("length");
 
-        Map<String, Object> queryParam = Maps.newHashMap();
-        queryParam.put("start", start);
-        queryParam.put("length", length);
-        List<User> userList = userService.findAll();
+        Long count = userService.count();
+        List<User> userList = userService.findLimit(Integer.valueOf(start), Integer.valueOf(length));
 
-        return new DataTablesResult(draw, 10L, 10L, userList);
+        return new DataTablesResult(draw, count, count, userList);
     }
+
+    /**
+     * 判断用户是否存在
+     *
+     * @param userName
+     * @return
+     */
+    @GetMapping("/isuse")
+    @ResponseBody
+    public String userNameIsuse(String userName) {
+        User user = userService.findByUserName(userName);
+        if (user == null) {
+            return "true";
+        }
+        return "false";
+    }
+
+    /**
+     * 添加新用户
+     *
+     * @param user
+     * @return
+     */
+    @PostMapping("/new")
+    @ResponseBody
+    public AjaxResult newUser(User user) {
+        userService.save(user);
+        return new AjaxResult(AjaxResult.SUCCESS);
+    }
+
+    /**
+     * 重置用户密码为000000
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/resetpassword")
+    @ResponseBody
+    public AjaxResult resetPassword(Integer id) {
+        userService.resetUserPassword(id);
+        return new AjaxResult(AjaxResult.SUCCESS);
+    }
+
+    @GetMapping("/{id:\\d+}.json")
+    @ResponseBody
+    public AjaxResult showUser(@PathVariable Integer id) {
+        User user = userService.findById(id);
+        if (user == null) {
+            return new AjaxResult("找不到" + id + "对应的用户");
+        } else {
+            return new AjaxResult(user);
+        }
+    }
+
+    @PostMapping("edit")
+    @ResponseBody
+    public AjaxResult editUser(User user) {
+        userService.updateNoPassword(user);
+        return new AjaxResult(AjaxResult.SUCCESS);
+    }
+
 }

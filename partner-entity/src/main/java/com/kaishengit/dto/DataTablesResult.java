@@ -10,7 +10,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class DataTablesResult {
     private String draw;
-    private Long recordsTotal;
-    private Long recordsFiltered;
+    private Long recordsTotal;//总数量
+    private Long recordsFiltered;//过滤后所有的数量
     private Object data;
 }

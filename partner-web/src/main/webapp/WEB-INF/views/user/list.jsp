@@ -80,11 +80,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <form id="newForm">
                     <div class="form-group">
                         <label>账号(用于系统登录)</label>
-                        <input type="text" class="form-control" name="username">
+                        <input type="text" class="form-control" name="userName">
                     </div>
                     <div class="form-group">
                         <label>员工姓名(真实姓名)</label>
-                        <input type="text" class="form-control" name="realname">
+                        <input type="text" class="form-control" name="realName">
                     </div>
                     <div class="form-group">
                         <label>密码(默认 000000)</label>
@@ -92,13 +92,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                     <div class="form-group">
                         <label>微信号</label>
-                        <input type="text" class="form-control" name="weixin">
+                        <input type="text" class="form-control" name="weiXin">
                     </div>
                     <div class="form-group">
                         <label>角色</label>
-                        <select class="form-control" name="roleid">
+                        <select class="form-control" name="role.id">
                             <c:forEach items="${roleList}" var="role">
-                                <option value="${role.id}">${role.rolename}</option>
+                                <option value="${role.id}">${role.roleName}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -126,29 +126,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <input type="hidden" name="id" id="edit_user_id">
                     <div class="form-group">
                         <label>账号(用于系统登录)</label>
-                        <input type="text" class="form-control" disabled name="username" id="edit_user_username">
+                        <input type="text" class="form-control" disabled name="userName" id="edit_user_username">
                     </div>
                     <div class="form-group">
                         <label>员工姓名(真实姓名)</label>
-                        <input type="text" class="form-control" name="realname" id="edit_user_realname">
+                        <input type="text" class="form-control" name="realName" id="edit_user_realname">
                     </div>
                     <div class="form-group">
                         <label>微信号</label>
-                        <input type="text" class="form-control" name="weixin" id="edit_user_weixin">
+                        <input type="text" class="form-control" name="weiXin" id="edit_user_weixin">
                     </div>
                     <div class="form-group">
                         <label>角色</label>
-                        <select class="form-control" name="roleid" id="edit_user_roleid">
+                        <select class="form-control" name="role.id" id="edit_user_roleid">
                             <c:forEach items="${roleList}" var="role">
-                                <option value="${role.id}">${role.rolename}</option>
+                                <option value="${role.id}">${role.roleName}</option>
                             </c:forEach>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>状态</label>
                         <select class="form-control" name="enable" id="edit_user_enable">
-                            <option value="true">正常</option>
-                            <option value="false">禁用</option>
+                            <option value="1">正常</option>
+                            <option value="0">禁用</option>
                         </select>
                     </div>
                 </form>
@@ -174,7 +174,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         var dataTable = $("#userTable").DataTable({
             serverSide: true,
-            ajax: "/user/load",
+            ajax: "/user/load/user",
             ordering: false,
             "autoWidth": false,
             columns: [
@@ -185,7 +185,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 {"data": "role.roleName"},
                 {
                     "data": function (row) {
-                        if (row.enable) {
+                        if (row.enable == 1) {
                             return "<span class='label label-success'>正常</span>";
                         } else {
                             return "<span class='label label-danger'>禁用</span>";
@@ -233,30 +233,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
             errorClass: "text-danger",
             errorElement: "span",
             rules: {
-                username: {
+                userName: {
                     required: true,
                     rangelength: [3, 20],
-                    remote: "/admin/user/checkusername"
+                    remote: "/user/isuse"
                 },
-                realname: {
+                realName: {
                     required: true,
                     rangelength: [2, 20]
                 },
                 password: {
                     required: true,
-                    rangelength: [6, 18]
+                    rangelength: [5, 18]
                 },
-                weixin: {
+                weiXin: {
                     required: true
                 }
             },
             messages: {
-                username: {
+                userName: {
                     required: "请输入用户名",
                     rangelength: "用户名的长度3~20位",
                     remote: "该用户名已被占用"
                 },
-                realname: {
+                realName: {
                     required: "请输入真实姓名",
                     rangelength: "真实姓名长度2~20位"
                 },
@@ -264,13 +264,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     required: "请输入密码",
                     rangelength: "密码长度6~18位"
                 },
-                weixin: {
+                weiXin: {
                     required: "请输入微信号码"
                 }
             },
             submitHandler: function (form) {
-                $.post("/admin/users/new", $(form).serialize()).done(function (data) {
-                    if (data == "success") {
+                $.post("/user/new", $(form).serialize()).done(function (data) {
+                    if (data.status == "success") {
                         $("#newModal").modal('hide');
                         dataTable.ajax.reload();
                     }
@@ -297,7 +297,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $(document).delegate(".resetPwd", "click", function () {
             var id = $(this).attr("rel");
             if (confirm("确认将密码重置为：000000？")) {
-                $.post("/admin/users/resetpassword", {"id": id}).done(function (data) {
+                $.post("/user/resetpassword", {"id": id}).done(function (data) {
                     if (data == 'success') {
                         alert("密码重置成功");
                     }
@@ -313,7 +313,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             errorClass: "text-danger",
             errorElement: "span",
             rules: {
-                realname: {
+                realName: {
                     required: true,
                     rangelength: [2, 20]
                 },
@@ -322,17 +322,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 }
             },
             messages: {
-                realname: {
+                realName: {
                     required: "请输入真实姓名",
                     rangelength: "真实姓名长度2~20位"
                 },
-                weixin: {
+                weiXin: {
                     required: "请输入微信号码"
                 }
             },
             submitHandler: function (form) {
-                $.post("/admin/users/edit", $(form).serialize()).done(function (data) {
-                    if (data == "success") {
+                $.post("/user/edit", $(form).serialize()).done(function (data) {
+                    if (data.status == "success") {
                         $("#editModal").modal('hide');
                         dataTable.ajax.reload();
                     }
@@ -344,14 +344,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         $(document).delegate(".edit", "click", function () {
             var id = $(this).attr("rel");
-            $.get("/admin/users/" + id + ".json").done(function (result) {
-                if (result.state == "success") {
+            $.get("/user/" + id + ".json").done(function (result) {
+                if (result.status == "success") {
                     $("#edit_user_id").val(result.data.id);
-                    $("#edit_user_username").val(result.data.username);
-                    $("#edit_user_realname").val(result.data.realname);
-                    $("#edit_user_weixin").val(result.data.weixin);
-                    $("#edit_user_roleid").val(result.data.roleid);
-                    $("#edit_user_enable").val(result.data.enable.toString());
+                    $("#edit_user_username").val(result.data.userName);
+                    $("#edit_user_realname").val(result.data.realName);
+                    $("#edit_user_weixin").val(result.data.weiXin);
+                    $("#edit_user_roleid").val(result.data.role.id);
+                    console.log(result.data.enable);
+                    if (result.data.enable == 1) {
+                        $("#edit_user_enable").val("1");
+                    } else {
+                        $("#edit_user_enable").val("0");
+                    }
 
                     $("#editModal").modal({
                         show: true,

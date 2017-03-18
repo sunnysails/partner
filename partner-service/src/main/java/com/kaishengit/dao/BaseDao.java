@@ -1,6 +1,8 @@
 package com.kaishengit.dao;
 
-import org.hibernate.Criteria;
+import com.kaishengit.pojo.User;
+import org.hibernate.Criteria;;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -42,12 +44,30 @@ public class BaseDao<T> {
         return criteria.list();
     }
 
+    public List<T> findLimit(Integer start, Integer length) {
+        String hql = "from " + clazz.getName();
+
+        Query query = getSession().createQuery(hql);
+        query.setFirstResult(start);
+        query.setMaxResults(length);
+
+        return query.list();
+    }
+
     public T findById(Integer id) {
         return (T) getSession().get(clazz, id);
     }
 
+    public void save(T entity) {
+        getSession().save(entity);
+    }
+
     public void saveOrUpdate(T entity) {
         getSession().saveOrUpdate(entity);
+    }
+
+    public void update(T entity) {
+        getSession().update(entity);
     }
 
     public void delete(T entity) {
@@ -57,4 +77,12 @@ public class BaseDao<T> {
     public void delete(Integer id) {
         getSession().delete(findById(id));
     }
+
+    public long count() {
+        String hql = "select count(*) from " + clazz.getName();
+        Query query = getSession().createQuery(hql);
+        return (Long) query.uniqueResult();
+
+    }
+
 }
