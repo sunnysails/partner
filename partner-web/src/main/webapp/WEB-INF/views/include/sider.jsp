@@ -7,15 +7,14 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li class="treeview">
-                <a href="#">
+                <a href="/user">
                     <i class="fa fa-address-card"></i>
-                    <span>账户管理</span>
-                    <i class="fa fa-angle-left pull-right"></i>
+                    <span>账户列表</span>
                 </a>
-                <ul class="treeview-menu">
-                    <li><a href="/user"><i class="fa fa-circle-o"></i> 账户列表</a></li>
-                    <li><a href="/user/new"><i class="fa fa-plus"></i> 新增账户</a></li>
-                </ul>
+                <%--                <ul class="treeview-menu">
+                                    <li><a href="/user"><i class="fa fa-circle-o"></i> 账户列表</a></li>
+                                    <li><a href="/user/new"><i class="fa fa-plus"></i> 新增账户</a></li>
+                                </ul>--%>
             </li>
 
             <li class="treeview">

@@ -1,5 +1,6 @@
 package com.kaishengit.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,5 +24,6 @@ public class Role {
     private String roleName;
     @OneToMany(mappedBy = "role")
     @OrderBy("id desc")
+    @JsonIgnore
     private Set<User> userLIst;
 }
