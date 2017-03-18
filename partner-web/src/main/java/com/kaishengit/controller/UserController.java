@@ -8,6 +8,7 @@ import com.kaishengit.pojo.User;
 import com.kaishengit.service.RoleService;
 import com.kaishengit.service.UserService;
 import com.kaishengit.shiro.ShiroUtil;
+import com.kaishengit.util.CharsetUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,9 +61,16 @@ public class UserController {
         String draw = request.getParameter("draw");
         String start = request.getParameter("start");
         String length = request.getParameter("length");
+        String search = request.getParameter("search[value]");
+        search = CharsetUtil.toUTF8(search);
+        Map<String, Object> queryParam = Maps.newHashMap();
+        queryParam.put("start", start);
+        queryParam.put("length", length);
+        queryParam.put("search", search);
 
         Long count = userService.count();
-        List<User> userList = userService.findLimit(Integer.valueOf(start), Integer.valueOf(length));
+        List<User> userList = userService.findLimitUserOrRealName(Integer.valueOf(start), Integer.valueOf(length),search);
+//        List<User> userList = userService.findLimit(Integer.valueOf(start), Integer.valueOf(length));
 
         return new DataTablesResult(draw, count, count, userList);
     }

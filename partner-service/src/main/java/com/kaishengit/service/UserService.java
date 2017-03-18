@@ -26,4 +26,6 @@ public interface UserService {
     void update(User user);
 
     void updateNoPassword(User user);
+
+    List<User> findLimitUserOrRealName(Integer start, Integer length, String name);
 }

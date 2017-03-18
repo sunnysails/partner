@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by sunny on 2017/3/15.
@@ -84,6 +85,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateNoPassword(User user) {
         userDao.updateNotNull(user);
+    }
+
+
+    @Override
+    public List<User> findLimitUserOrRealName(Integer start, Integer length, String name) {
+        if (name.isEmpty()) {
+            return userDao.findLimit(start, length);
+        } else {
+            return userDao.findLimitUserOrRealName(start, length, name);
+        }
     }
 
 }
