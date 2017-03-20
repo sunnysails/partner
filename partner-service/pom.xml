@@ -29,7 +29,10 @@
             <groupId>com.kaishengit</groupId>
             <artifactId>partner-util</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.kaishengit</groupId>
+            <artifactId>partner-exception</artifactId>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -67,6 +70,10 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
         </dependency>
 
         <dependency>

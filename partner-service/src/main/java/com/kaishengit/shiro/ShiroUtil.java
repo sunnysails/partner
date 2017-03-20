@@ -6,14 +6,17 @@ import org.apache.shiro.SecurityUtils;
 /**
  * Created by sunny on 2017/2/18.
  */
-public class Shiro extends ShiroUtil {
+public class ShiroUtil {
+
     public static User getCurrentUser() {
         return (User) SecurityUtils.getSubject().getPrincipal();
     }
 
+
     public static String getCurrentUserName() {
         return getCurrentUser().getUserName();
     }
+
 
     public static Integer getCurrentUserId() {
         return getCurrentUser().getId();

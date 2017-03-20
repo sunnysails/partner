@@ -30,6 +30,10 @@
             <artifactId>partner-entity</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.kaishengit</groupId>
+            <artifactId>partner-exception</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-all</artifactId>
         </dependency>
