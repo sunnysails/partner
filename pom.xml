@@ -7,8 +7,8 @@
     <version>1.0</version>
     <modules>
         <module>partner-util</module>
-        <module>partner-service</module>
         <module>partner-entity</module>
+        <module>partner-service</module>
         <module>partner-web</module>
         <module>partner-exception</module>
         <module>partner-weixin</module>
