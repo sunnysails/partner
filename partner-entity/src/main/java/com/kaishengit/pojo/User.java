@@ -5,14 +5,16 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Setter//lombok注解生成Get/Set 方法
 @Getter
-@ToString(exclude = "role")//lombok注解，生成ToString（排除相关列方法）,
+@ToString(exclude = "role,userLogList")//lombok注解，生成ToString（排除相关列方法）,
 @Entity
 @Table(name = "t_user")
-public class User {
+public class User implements Serializable {
     //默认重置密码
     public static final String PASSWORD0 = "000000";
     public static final Integer ENABLE_1 = 1;
@@ -33,4 +35,7 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;//(roleId = role.id)
+    @OneToMany(mappedBy = "user")
+    @OrderBy("id desc")
+    private Set<UserLog> userLogList;
 }

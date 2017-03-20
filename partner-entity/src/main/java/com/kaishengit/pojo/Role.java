@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -16,7 +17,7 @@ import java.util.Set;
 @ToString(exclude = "userList")
 @Entity
 @Table(name = "t_role")
-public class Role {
+public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,5 +26,5 @@ public class Role {
     @OneToMany(mappedBy = "role")
     @OrderBy("id desc")
     @JsonIgnore
-    private Set<User> userLIst;
+    private Set<User> userList;
 }

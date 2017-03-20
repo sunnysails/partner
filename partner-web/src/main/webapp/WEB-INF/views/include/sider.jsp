@@ -11,10 +11,17 @@
                     <i class="fa fa-address-card"></i>
                     <span>账户列表</span>
                 </a>
-                <%--                <ul class="treeview-menu">
-                                    <li><a href="/user"><i class="fa fa-circle-o"></i> 账户列表</a></li>
-                                    <li><a href="/user/new"><i class="fa fa-plus"></i> 新增账户</a></li>
-                                </ul>--%>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-user-circle"></i>
+                    <span>账号管理</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/user/password"><i class="fa fa-cog"></i>密码修改</a></li>
+                    <li><a href="/user/loginlog"><i class="fa fa-history"></i>登陆日志</a></li>
+                </ul>
             </li>
 
             <li class="treeview">

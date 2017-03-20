@@ -1,13 +1,12 @@
 package com.kaishengit.controller;
 
-import com.google.common.collect.Maps;
 import com.kaishengit.dto.AjaxResult;
 import com.kaishengit.dto.DataTablesResult;
+import com.kaishengit.exception.ServiceException;
 import com.kaishengit.pojo.Role;
 import com.kaishengit.pojo.User;
 import com.kaishengit.service.RoleService;
 import com.kaishengit.service.UserService;
-import com.kaishengit.shiro.ShiroUtil;
 import com.kaishengit.util.CharsetUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by sunny on 2017/3/17.
@@ -63,14 +61,8 @@ public class UserController {
         String length = request.getParameter("length");
         String search = request.getParameter("search[value]");
         search = CharsetUtil.toUTF8(search);
-        Map<String, Object> queryParam = Maps.newHashMap();
-        queryParam.put("start", start);
-        queryParam.put("length", length);
-        queryParam.put("search", search);
-
         Long count = userService.count();
-        List<User> userList = userService.findLimitUserOrRealName(Integer.valueOf(start), Integer.valueOf(length),search);
-//        List<User> userList = userService.findLimit(Integer.valueOf(start), Integer.valueOf(length));
+        List<User> userList = userService.findLimitUserOrRealName(Integer.valueOf(start), Integer.valueOf(length), search);
 
         return new DataTablesResult(draw, count, count, userList);
     }
@@ -117,6 +109,12 @@ public class UserController {
         return new AjaxResult(AjaxResult.SUCCESS);
     }
 
+    /**
+     * 根据Id返回该相应的user对象
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("/{id:\\d+}.json")
     @ResponseBody
     public AjaxResult showUser(@PathVariable Integer id) {
@@ -128,6 +126,12 @@ public class UserController {
         }
     }
 
+    /**
+     * 编辑用户
+     *
+     * @param user
+     * @return
+     */
     @PostMapping("edit")
     @ResponseBody
     public AjaxResult editUser(User user) {
@@ -135,4 +139,29 @@ public class UserController {
         return new AjaxResult(AjaxResult.SUCCESS);
     }
 
+    /**
+     * 用户更改密码界面
+     *
+     * @return
+     */
+    @GetMapping("/password")
+    public String settingPassword() {
+        return "/setting/password";
+    }
+
+    @PostMapping("/password")
+    @ResponseBody
+    public AjaxResult settingPassword(String oldPassword, String newPassword) {
+        try {
+            userService.settingUserPassword(oldPassword, newPassword);
+            return new AjaxResult(AjaxResult.SUCCESS);
+        } catch (ServiceException e) {
+            return new AjaxResult(e.getMessage());
+        }
+    }
+
+    @GetMapping("/loginlog")
+    public String userLoginLog() {
+        return "/setting/loglist";
+    }
 }

@@ -1,6 +1,5 @@
 package com.kaishengit.dao;
 
-import com.kaishengit.pojo.User;
 import org.hibernate.Criteria;;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -82,7 +81,6 @@ public class BaseDao<T> {
         String hql = "select count(*) from " + clazz.getName();
         Query query = getSession().createQuery(hql);
         return (Long) query.uniqueResult();
-
     }
 
 }

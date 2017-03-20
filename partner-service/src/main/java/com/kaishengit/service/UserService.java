@@ -28,4 +28,6 @@ public interface UserService {
     void updateNoPassword(User user);
 
     List<User> findLimitUserOrRealName(Integer start, Integer length, String name);
+
+    void settingUserPassword(String oldPassword, String newPassword);
 }

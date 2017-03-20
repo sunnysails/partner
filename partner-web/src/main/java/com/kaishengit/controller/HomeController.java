@@ -30,7 +30,7 @@ public class HomeController {
 
     @PostMapping("/")
     public String login(String userName, String password, RedirectAttributes redirectAttributes) {
-        //Shiro方式登录
+        //Shiro 方式登录
         Subject subject = SecurityUtils.getSubject();
         //密码加盐
         password = DigestUtils.md5Hex(password + salt);

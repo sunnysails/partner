@@ -29,6 +29,10 @@
             <groupId>com.kaishengit</groupId>
             <artifactId>partner-util</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.kaishengit</groupId>
+            <artifactId>partner-exception</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>

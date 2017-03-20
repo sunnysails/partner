@@ -1,8 +1,10 @@
 package com.kaishengit.service.impl;
 
 import com.kaishengit.dao.son.UserDao;
+import com.kaishengit.exception.ServiceException;
 import com.kaishengit.pojo.User;
 import com.kaishengit.service.UserService;
+import com.kaishengit.shiro.ShiroUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by sunny on 2017/3/15.
@@ -22,17 +23,6 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
     @Value("${password.salt}")
     private String salt;
-
-    /**
-     * 给密码加盐
-     *
-     * @param user 需要加盐的User对象
-     */
-    private void addSalt(User user) {
-        if (user.getPassword() != null) {
-            user.setPassword(DigestUtils.md5Hex(user.getPassword() + salt));
-        }
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -54,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
-        addSalt(user);
+        user.setPassword(DigestUtils.md5Hex(user.getPassword() + salt));
         userDao.saveOrUpdate(user);
     }
 
@@ -87,13 +77,32 @@ public class UserServiceImpl implements UserService {
         userDao.updateNotNull(user);
     }
 
-
+    /**
+     * 根据开始Id及查询总长度和Name分配查询方式
+     *
+     * @param start
+     * @param length
+     * @param name
+     * @return
+     */
     @Override
+    @Transactional(readOnly = true)
     public List<User> findLimitUserOrRealName(Integer start, Integer length, String name) {
         if (name.isEmpty()) {
             return userDao.findLimit(start, length);
         } else {
             return userDao.findLimitUserOrRealName(start, length, name);
+        }
+    }
+
+    @Override
+    public void settingUserPassword(String oldPassword, String newPassword) {
+        User user = ShiroUtil.getCurrentUser();
+        if (user.getPassword().equals(DigestUtils.md5Hex(oldPassword + salt))) {
+            user.setPassword(DigestUtils.md5Hex(newPassword + salt));
+            userDao.update(user);
+        } else {
+            throw new ServiceException("原始密码错误，修改失败");
         }
     }
 
