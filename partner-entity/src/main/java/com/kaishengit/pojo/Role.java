@@ -1,12 +1,10 @@
 package com.kaishengit.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -17,7 +15,7 @@ import java.util.Set;
 @ToString(exclude = "userList")
 @Entity
 @Table(name = "t_role")
-public class Role implements Serializable {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,6 +23,5 @@ public class Role implements Serializable {
     private String roleName;
     @OneToMany(mappedBy = "role")
     @OrderBy("id desc")
-    @JsonIgnore
-    private Set<User> userList;
+    private Set<User> userLIst;
 }

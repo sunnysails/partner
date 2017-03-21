@@ -15,7 +15,6 @@
 
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
-    <context:property-placeholder location="classpath:config.properties"/>
 
     <!--视图解析器-->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
@@ -25,9 +24,9 @@
     </bean>
 
     <!--文件上传的视图解析器-->
-<!--    <bean id="multipartResolver"
+    <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="100000000"/>
-    </bean>-->
+    </bean>
 
 </beans>

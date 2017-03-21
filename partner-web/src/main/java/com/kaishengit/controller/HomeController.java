@@ -1,12 +1,10 @@
 package com.kaishengit.controller;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,9 +18,6 @@ import javax.servlet.ServletRequest;
  */
 @Controller
 public class HomeController {
-    @Value("${password.salt}")
-    private String salt;
-
     @GetMapping("/")
     public String login() {
         return "login";
@@ -30,10 +25,8 @@ public class HomeController {
 
     @PostMapping("/")
     public String login(String userName, String password, RedirectAttributes redirectAttributes) {
-        //Shiro 方式登录
+        //Shiro方式登录
         Subject subject = SecurityUtils.getSubject();
-        //密码加盐
-        password = DigestUtils.md5Hex(password + salt);
         try {
             subject.login(new UsernamePasswordToken(userName, password));
             return "redirect:/home";
@@ -62,7 +55,7 @@ public class HomeController {
     @RequestMapping("/logout")
     public String logout(RedirectAttributes redirectAttributes) {
         SecurityUtils.getSubject().logout();
-        redirectAttributes.addFlashAttribute("message", "你已安全退出");
+        redirectAttributes.addFlashAttribute("message","你已安全退出");
         return "redirect:/";
     }
 
