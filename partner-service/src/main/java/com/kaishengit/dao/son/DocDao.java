@@ -1,5 +1,6 @@
-package com.kaishengit.dao;
+package com.kaishengit.dao.son;
 
+import com.kaishengit.dao.BaseDao;
 import com.kaishengit.pojo.Doc;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
