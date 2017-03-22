@@ -1,5 +1,6 @@
 package com.kaishengit.service.impl;
 
+import com.google.common.collect.Lists;
 import com.kaishengit.dao.son.DocDao;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.pojo.Doc;
@@ -98,6 +99,42 @@ public class DocServiceImpl implements DocService {
         }else {
             FileInputStream inputStream = new FileInputStream(new File(new File(savePath), doc.getFilename()));
             return inputStream;
+        }
+    }
+
+    @Override
+    public void delById(Integer id) {
+        Doc doc = docDao.findById(id);
+        if(doc != null) {
+            if (Doc.TYPE_DOC.equals(doc.getType())) {
+                //删除文件
+                File file = new File(savePath, doc.getFilename());
+                file.delete();
+                //删除数据库记录
+                docDao.delete(id);
+            } else {
+                List<Doc> docList = docDao.findAll();
+                List<Integer> delList = Lists.newArrayList();
+                findDelId(docList,delList,id);
+                docDao.delete(id);
+              /*  //批量删除
+                docDao.batchDel(delList);*/
+            }
+        }
+    }
+
+    private void findDelId(List<Doc> docList,
+                           List<Integer> delIdList, Integer id) {
+        for(Doc doc : docList) {
+            if(doc.getFid().equals(id)) {
+                docDao.delete(doc.getId());
+                if(doc.getType().equals(Doc.TYPE_DIR)){
+                    findDelId(docList,delIdList,doc.getId());
+                } else {
+                    File file = new File(savePath,doc.getFilename());
+                    file.delete();
+                }
+            }
         }
     }
 

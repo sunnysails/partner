@@ -22,4 +22,6 @@ public interface DocService {
     Doc findById(Integer id);
 
     InputStream downloadFile(Integer id) throws FileNotFoundException;
+
+    void delById(Integer id);
 }

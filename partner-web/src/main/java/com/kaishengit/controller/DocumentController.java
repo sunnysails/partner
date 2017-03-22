@@ -1,5 +1,6 @@
 package com.kaishengit.controller;
 
+import com.kaishengit.dto.AjaxResult;
 import com.kaishengit.exception.NotFoundException;
 import com.kaishengit.pojo.Doc;
 import com.kaishengit.service.DocService;
@@ -73,10 +74,10 @@ public class DocumentController {
 
     /*TODO
     * */
-   /* @GetMapping("/del/{id:\\d+}")
+    @GetMapping("/del/{id:\\d+}")
     @ResponseBody
     public AjaxResult del(@PathVariable Integer id) {
-        diskService.delById(id);
+        docService.delById(id);
         return new AjaxResult(AjaxResult.SUCCESS);
-    }*/
+    }
 }
