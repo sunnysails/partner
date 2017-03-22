@@ -1,19 +1,18 @@
 package com.kaishengit.pojo;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-@Setter
-@Getter
+@Data
 @ToString(exclude = "user")
 @Entity
 @Table(name = "t_user_log")
-public class UserLog {
+public class UserLog implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -24,4 +23,14 @@ public class UserLog {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public UserLog() {
+    }
+
+    public UserLog(String loginIp, Integer userId) {
+        User user = new User();
+        user.setId(userId);
+        this.loginIp = loginIp;
+        this.user = user;
+    }
 }

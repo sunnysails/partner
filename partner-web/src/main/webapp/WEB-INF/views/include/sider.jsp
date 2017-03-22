@@ -19,8 +19,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/user/password"><i class="fa fa-cog"></i>密码修改</a></li>
-                    <li><a href="/user/loginlog"><i class="fa fa-history"></i>登陆日志</a></li>
+                    <li><a href="/setting/password"><i class="fa fa-cog"></i>密码修改</a></li>
+                    <li><a href="/log/login"><i class="fa fa-history"></i>登陆日志</a></li>
                 </ul>
             </li>
 

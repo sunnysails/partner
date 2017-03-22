@@ -54,18 +54,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- jQuery 2.2.0 -->
 <%@include file="../include/js.jsp" %>
 <%@include file="../include/dateTables.jsp" %>
+<%@include file="../include/moment.jsp" %>
 <script>
-    $(function(){
+    $(function () {
 
         var dateTable = $("#logTable").DataTable({
-            searching:false,
-            serverSide:true,
-            ajax:"/user/log/load",
-            ordering:false,
+            searching: false,
+            serverSide: true,
+            ajax: "/log/user/login",
+            ordering: false,
             "autoWidth": false,
-            columns:[
-                {"data":"logintime"},
-                {"data":"loginip"}
+            columns: [
+                {
+                    "data": function (row) {
+                        var timestamp = row.loginTime;
+                        var day = moment(timestamp);
+                        return day.format("YYYY-MM-DD HH:mm");
+                    }
+                },
+//                {"data": "loginTime"},
+                {"data": "loginIp"}
             ],
             "language": { //定义中文
                 "search": "请输入书籍名称:",

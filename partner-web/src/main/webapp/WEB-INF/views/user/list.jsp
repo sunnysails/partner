@@ -8,10 +8,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html>
 <head>
     <%@include file="../include/css.jsp" %>
@@ -34,7 +30,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main content -->
         <section class="content">
 
-            <div class="box box-primary">
+            <div class="box box-solid box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">员工列表</h3>
                     <div class="box-tools pull-right">
@@ -177,6 +173,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             ajax: "/user/load/user",
             ordering: false,
             "autoWidth": false,
+//            "searching": false,
             columns: [
                 {"data": "id"},
                 {"data": "userName"},

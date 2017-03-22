@@ -1,9 +1,10 @@
 package com.kaishengit.service;
 
 import com.kaishengit.pojo.User;
+import com.kaishengit.pojo.UserLog;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by sunny on 2017/3/15.
@@ -30,4 +31,12 @@ public interface UserService {
     List<User> findLimitUserOrRealName(Integer start, Integer length, String name);
 
     void settingUserPassword(String oldPassword, String newPassword);
+
+    Long countWithUser();
+
+    void addLoginLog(String ip);
+
+    Set<UserLog> findUserLoginLog();
+
+    List<UserLog> findUserLoginLog(Integer start, Integer length);
 }

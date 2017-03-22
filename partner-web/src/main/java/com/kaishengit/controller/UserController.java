@@ -2,7 +2,6 @@ package com.kaishengit.controller;
 
 import com.kaishengit.dto.AjaxResult;
 import com.kaishengit.dto.DataTablesResult;
-import com.kaishengit.exception.ServiceException;
 import com.kaishengit.pojo.Role;
 import com.kaishengit.pojo.User;
 import com.kaishengit.service.RoleService;
@@ -139,29 +138,4 @@ public class UserController {
         return new AjaxResult(AjaxResult.SUCCESS);
     }
 
-    /**
-     * 用户更改密码界面
-     *
-     * @return
-     */
-    @GetMapping("/password")
-    public String settingPassword() {
-        return "/setting/password";
-    }
-
-    @PostMapping("/password")
-    @ResponseBody
-    public AjaxResult settingPassword(String oldPassword, String newPassword) {
-        try {
-            userService.settingUserPassword(oldPassword, newPassword);
-            return new AjaxResult(AjaxResult.SUCCESS);
-        } catch (ServiceException e) {
-            return new AjaxResult(e.getMessage());
-        }
-    }
-
-    @GetMapping("/loginlog")
-    public String userLoginLog() {
-        return "/setting/loglist";
-    }
 }

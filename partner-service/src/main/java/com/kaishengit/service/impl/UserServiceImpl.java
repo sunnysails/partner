@@ -1,8 +1,10 @@
 package com.kaishengit.service.impl;
 
 import com.kaishengit.dao.son.UserDao;
+import com.kaishengit.dao.son.UserLogDao;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.pojo.User;
+import com.kaishengit.pojo.UserLog;
 import com.kaishengit.service.UserService;
 import com.kaishengit.shiro.ShiroUtil;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by sunny on 2017/3/15.
@@ -21,6 +24,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private UserLogDao logDao;
     @Value("${password.salt}")
     private String salt;
 
@@ -104,6 +109,28 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new ServiceException("原始密码错误，修改失败");
         }
+    }
+
+    @Override
+    public Long countWithUser() {
+        return Long.valueOf(userDao.findById(ShiroUtil.getCurrentUserId()).getUserLogList().size());
+    }
+
+    @Override
+    public void addLoginLog(String ip) {
+        Integer userId = ShiroUtil.getCurrentUserId();
+        UserLog userLog = new UserLog(ip, userId);
+        logDao.save(userLog);
+    }
+
+    @Override
+    public Set<UserLog> findUserLoginLog() {
+        return userDao.findById(ShiroUtil.getCurrentUserId()).getUserLogList();
+    }
+
+    @Override
+    public List<UserLog> findUserLoginLog(Integer start, Integer length) {
+        return logDao.findByUserIdWithPage(start, length, ShiroUtil.getCurrentUserId());
     }
 
 }

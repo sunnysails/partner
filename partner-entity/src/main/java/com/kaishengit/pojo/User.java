@@ -1,5 +1,6 @@
 package com.kaishengit.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,7 +12,7 @@ import java.util.Set;
 
 @Setter//lombok注解生成Get/Set 方法
 @Getter
-@ToString(exclude = "role,userLogList")//lombok注解，生成ToString（排除相关列方法）,
+//@ToString(exclude = "role")//lombok注解，生成ToString（排除相关列方法）,
 @Entity
 @Table(name = "t_user")
 public class User implements Serializable {
@@ -37,5 +38,6 @@ public class User implements Serializable {
     private Role role;//(roleId = role.id)
     @OneToMany(mappedBy = "user")
     @OrderBy("id desc")
+    @JsonIgnore
     private Set<UserLog> userLogList;
 }
