@@ -12,7 +12,7 @@
     <artifactId>partner-util</artifactId>
     <packaging>jar</packaging>
     <version>1.0</version>
-    
+
     <name>partner-util</name>
     <url>http://maven.apache.org</url>
 

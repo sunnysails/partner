@@ -29,7 +29,10 @@
             <groupId>com.kaishengit</groupId>
             <artifactId>partner-entity</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.kaishengit</groupId>
+            <artifactId>partner-exception</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.kaishengit</groupId>
             <artifactId>partner-exception</artifactId>
@@ -67,10 +70,6 @@
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>jstl</groupId>

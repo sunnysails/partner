@@ -5,16 +5,18 @@
   Time: 13:14
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<<<<<<< HEAD
 <!DOCTYPE html>
+=======
+>>>>>>> 27791ed6d78878f8abf1977565f40636f6842520
 <html>
 <head>
-    <%@include file="../include/css.jsp" %>
+    <title>Title</title>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+<body>
 
+<<<<<<< HEAD
     <%@include file="../include/header.jsp" %>
     <%@include file="../include/sider.jsp" %>
 
@@ -373,5 +375,7 @@
         });
     });
 </script>
+=======
+>>>>>>> 27791ed6d78878f8abf1977565f40636f6842520
 </body>
 </html>

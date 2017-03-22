@@ -80,4 +80,5 @@ public class DocumentController {
         docService.delById(id);
         return new AjaxResult(AjaxResult.SUCCESS);
     }
+
 }

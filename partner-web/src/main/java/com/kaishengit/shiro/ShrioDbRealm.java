@@ -20,6 +20,8 @@ import org.springframework.stereotype.Component;
 public class ShrioDbRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     /**
      * 权限认证

@@ -1,7 +1,6 @@
 package com.kaishengit.controller;
 
 import com.kaishengit.service.UserService;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -27,7 +26,6 @@ public class HomeController {
     private UserService userService;
     @Value("${password.salt}")
     private String salt;
-
     @GetMapping("/")
     public String login() {
         return "login";
@@ -39,8 +37,6 @@ public class HomeController {
         String ip = req.getRemoteAddr();
         //Shiro 方式登录
         Subject subject = SecurityUtils.getSubject();
-        //密码加盐
-        password = DigestUtils.md5Hex(password + salt);
         try {
             subject.login(new UsernamePasswordToken(userName, password));
             userService.addLoginLog(ip);
@@ -70,7 +66,7 @@ public class HomeController {
     @RequestMapping("/logout")
     public String logout(RedirectAttributes redirectAttributes) {
         SecurityUtils.getSubject().logout();
-        redirectAttributes.addFlashAttribute("message", "你已安全退出");
+        redirectAttributes.addFlashAttribute("message","你已安全退出");
         return "redirect:/";
     }
 
