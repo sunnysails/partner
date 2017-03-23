@@ -3,29 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kaishengit</groupId>
-    <artifactId>partner-parent</artifactId>
+    <artifactId>partner</artifactId>
     <version>1.0</version>
-    <modules>
-        <module>partner-util</module>
-        <module>partner-entity</module>
-        <module>partner-service</module>
-        <module>partner-web</module>
-        <module>partner-exception</module>
-        <module>partner-weixin</module>
-    </modules>
-    <packaging>pom</packaging>
-
-    <name>partner-parent</name>
+    <packaging>war</packaging>
+    <name>partner</name>
     <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <web-version>1.0</web-version>
-        <service-version>1.0</service-version>
-        <exception-version>1.0</exception-version>
-        <util-version>1.0</util-version>
-        <entity-version>1.0</entity-version>
 
         <junit-version>4.12</junit-version>
         <commons-dbcp-version>2.1.1</commons-dbcp-version>
@@ -38,38 +23,8 @@
         <hibernate-version>4.3.11.Final</hibernate-version>
     </properties>
 
-    <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.kaishengit</groupId>
-                <artifactId>partner-web</artifactId>
-                <version>${web-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.kaishengit</groupId>
-                <artifactId>partner-service</artifactId>
-                <version>${service-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.kaishengit</groupId>
-                <artifactId>partner-util</artifactId>
-                <version>${util-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.kaishengit</groupId>
-                <artifactId>partner-exception</artifactId>
-                <version>${exception-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.kaishengit</groupId>
-                <artifactId>partner-entity</artifactId>
-                <version>${entity-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.kaishengit</groupId>
-                <artifactId>partner-weixin</artifactId>
-                <version>1.0</version>
-            </dependency>
+           
 
             <!--junit-->
             <dependency>
@@ -237,10 +192,9 @@
             </dependency>
 
         </dependencies>
-    </dependencyManagement>
 
     <build>
-        <pluginManagement>
+<finalName>partner</finalName>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -263,7 +217,7 @@
                     </configuration>
                 </plugin>
             </plugins>
-        </pluginManagement>
+
     </build>
 
 </project>
