@@ -6,23 +6,46 @@
     <section class="sidebar">
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-            <li class="treeview">
+            <li class="treeview ${param.menu == 'user' ? 'active' : ''}">
                 <a href="/user">
                     <i class="fa fa-address-card"></i>
                     <span>账户列表</span>
                 </a>
             </li>
-            <li class="treeview">
+            <li class="treeview ${fn:startsWith(param.menu,'setting_') ? 'active' : ''}">
                 <a href="#">
                     <i class="fa fa-user-circle"></i>
                     <span>账号管理</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/setting/password"><i class="fa fa-cog"></i>密码修改</a></li>
-                    <li><a href="/log/login"><i class="fa fa-history"></i>登陆日志</a></li>
+                    <li class="${param.menu == 'setting_password' ? 'active' : ''}"><a href="/setting/password"><i
+                            class="fa fa-cog"></i>密码修改</a></li>
+                    <li class="${param.menu == 'setting_login' ? 'active' : ''}"><a href="/log/login"><i
+                            class="fa fa-history"></i>登陆日志</a></li>
                 </ul>
             </li>
+
+            <li class="treeview ${param.menu == 'task' ? 'active' : ''}">
+                <a href="/task">
+                    <i class="fa fa-calendar"></i>
+                    <span>待办事项</span>
+                </a>
+            </li>
+            <li class="treeview ${param.menu == 'document' ? 'active' : ''}">
+                <a href="/doc">
+                    <i class="fa fa-folder"></i>
+                    <span>公司网盘</span>
+                </a>
+            </li>
+            <li class="treeview">
+                <a href="/logout">
+                    <i class="fa fa-sign-out"></i>
+                    <span>安全退出</span>
+                </a>
+            </li>
+
+
 
             <li class="treeview">
                 <a href="#">
@@ -84,18 +107,6 @@
                         </ul>
                     </li>
                 </ul>
-            </li>
-            <li class="treeview">
-                <a href="/skydrive">
-                    <i class="fa fa-folder"></i>
-                    <span>公司网盘</span>
-                </a>
-            </li>
-            <li class="treeview">
-                <a href="/logout">
-                    <i class="fa fa-sign-out"></i>
-                    <span>安全退出</span>
-                </a>
             </li>
         </ul>
     </section>

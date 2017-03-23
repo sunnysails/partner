@@ -16,7 +16,9 @@
 <div class="wrapper">
 
     <%@include file="../include/header.jsp" %>
-    <%@include file="../include/sider.jsp" %>
+    <jsp:include page="../include/sider.jsp">
+        <jsp:param name="menu" value="user"/>
+    </jsp:include>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">

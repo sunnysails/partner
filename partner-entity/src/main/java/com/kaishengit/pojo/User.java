@@ -40,4 +40,8 @@ public class User implements Serializable {
     @OrderBy("id desc")
     @JsonIgnore
     private Set<UserLog> userLogList;
+/*    @OneToMany(mappedBy = "user")
+    @OrderBy("id desc")
+    @JsonIgnore
+    private Set<Task> taskList;*/
 }
