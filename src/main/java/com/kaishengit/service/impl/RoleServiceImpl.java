@@ -1,6 +1,6 @@
 package com.kaishengit.service.impl;
 
-import com.kaishengit.dao.son.RoleDao;
+import com.kaishengit.mapper.RoleMapper;
 import com.kaishengit.pojo.Role;
 import com.kaishengit.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,11 @@ import java.util.List;
 @Service
 public class RoleServiceImpl implements RoleService {
     @Autowired
-    private RoleDao roleDao;
+    private RoleMapper roleMapper;
 
     @Override
     public List<Role> findAll() {
-        return roleDao.findAll();
+        return roleMapper.findAll();
     }
+
 }

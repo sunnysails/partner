@@ -1,9 +1,8 @@
 package com.kaishengit.service.impl;
 
-import com.kaishengit.dao.son.TaskDao;
+import com.kaishengit.mapper.TaskMapper;
 import com.kaishengit.pojo.Task;
 import com.kaishengit.service.TaskService;
-import com.kaishengit.shiro.ShiroUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +14,12 @@ import java.util.List;
 @Service
 public class TaskServiceImpl implements TaskService {
     @Autowired
-    private TaskDao taskDao;
+    private TaskMapper taskMapper;
 
     @Override
     public List<Task> findByStartEndWithUser(String start, String end) {
-        return taskDao.findStartEndWithUser(start, end, ShiroUtil.getCurrentUserId());
+        Integer id = 1;
+        //TODO
+        return taskMapper.findStartEndWithUser(start, end, id);
     }
 }

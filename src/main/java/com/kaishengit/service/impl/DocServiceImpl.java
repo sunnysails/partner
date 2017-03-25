@@ -1,11 +1,11 @@
 package com.kaishengit.service.impl;
 
 import com.google.common.collect.Lists;
-import com.kaishengit.dao.son.DocDao;
 import com.kaishengit.exception.ServiceException;
+import com.kaishengit.mapper.DocMapper;
 import com.kaishengit.pojo.Doc;
+import com.kaishengit.security.SecurityUtil;
 import com.kaishengit.service.DocService;
-import com.kaishengit.shiro.ShiroUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,23 +26,23 @@ import java.util.UUID;
 @Transactional
 public class DocServiceImpl implements DocService {
     @Autowired
-    private DocDao docDao;
+    private DocMapper docMapper;
     @Value("${upload.path}")
     private String savePath;
 
     @Override
     public List<Doc> findByFid(Integer fid) {
-        return (List<Doc>) docDao.findByFid(fid);
+        return (List<Doc>) docMapper.findByFid(fid);
     }
 
     @Override
     public void saveDir(String name, Integer fid) {
         Doc doc = new Doc();
         doc.setName(name);
-        doc.setCreateuser(ShiroUtil.getCurrentUserName());
+        doc.setCreateuser(SecurityUtil.getCurrentUserName());
         doc.setFid(fid);
         doc.setType(Doc.TYPE_DIR);
-        docDao.saveOrUpdate(doc);
+        docMapper.save(doc);
     }
 
     /*
@@ -76,19 +76,19 @@ public class DocServiceImpl implements DocService {
             throw new ServiceException("文件保存到磁盘异常",ex);
         }
         Doc doc = new Doc();
-        doc.setCreateuser(ShiroUtil.getCurrentUserName());
+        doc.setCreateuser(SecurityUtil.getCurrentUserName());
         doc.setName(name);
         doc.setType(Doc.TYPE_DOC);
         doc.setFid(fid);
         doc.setSize(FileUtils.byteCountToDisplaySize(file.getSize()));
         doc.setFilename(newName);
         doc.setContexttype(file.getContentType());
-        docDao.saveOrUpdate(doc);
+        docMapper.update(doc);
     }
 
     @Override
     public Doc findById(Integer id) {
-        return docDao.findById(id);
+        return docMapper.findById(id);
     }
 
     @Override
@@ -103,19 +103,19 @@ public class DocServiceImpl implements DocService {
     }
     @Override
     public void delById(Integer id) {
-        Doc doc = docDao.findById(id);
+        Doc doc = docMapper.findById(id);
         if(doc != null) {
             if (Doc.TYPE_DOC.equals(doc.getType())) {
                 //删除文件
                 File file = new File(savePath, doc.getFilename());
                 file.delete();
                 //删除数据库记录
-                docDao.delete(id);
+                docMapper.delete(id);
             } else {
-                List<Doc> docList = docDao.findAll();
+                List<Doc> docList = docMapper.findAll();
                 List<Integer> delList = Lists.newArrayList();
                 findDelId(docList,delList,id);
-                docDao.delete(id);
+                docMapper.delete(id);
               /*  //批量删除
                 docDao.batchDel(delList);*/
             }
@@ -126,7 +126,7 @@ public class DocServiceImpl implements DocService {
                            List<Integer> delIdList, Integer id) {
         for(Doc doc : docList) {
             if(doc.getFid().equals(id)) {
-                docDao.delete(doc.getId());
+                docMapper.delete(doc.getId());
                 if(doc.getType().equals(Doc.TYPE_DIR)){
                     findDelId(docList,delIdList,doc.getId());
                 } else {

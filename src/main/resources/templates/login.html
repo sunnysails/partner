@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--    <meta name="_csrf" th:content="${_csrf.token}"/>
+    &lt;!&ndash; default header name is X-CSRF-TOKEN &ndash;&gt;
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+<head>
+    <meta charset="UTF-8">
+    <title>系统登录</title>
+    <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
+</head>
+<!--<meta name="_csrf" th:content="${_csrf.token}">
+<meta name="_csrf_header" th:content="${_csrf.headerName}">-->
+<body class="hold-transition login-page" style="background-image: url(/img/bg.jpg);">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="../../index2.html"><h2>管理系统登录</h2></a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body" style="background-color: #ffe;">
+        <p class="login-box-msg">请输入帐号密码</p>
+
+        <form method="post">
+            <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
+
+            <div class="form-group has-feedback">
+                <input type="text" name="username" class="form-control" placeholder="帐号/邮箱/手机号码">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" name="password" class="form-control" placeholder="密码">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="checkbox icheck">
+                        <label style="margin-left:20px"><input type="checkbox">记住我</label>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="form-group col-xs-4">
+                    <button class="btn btn-primary btn-block btn-flat">登录</button>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+        <!-- /.social-auth-links -->
+        <a href="#">忘记密码</a><br>
+
+    </div>
+    <!-- /.login-box-body -->
+</div>
+<script src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/dist/js/app.min.js"></script>
+</body>
+</html>

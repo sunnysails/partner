@@ -1,12 +1,15 @@
 package com.kaishengit.service.impl;
 
-import com.kaishengit.dao.son.UserDao;
-import com.kaishengit.dao.son.UserLogDao;
+import com.kaishengit.dto.MyUserDetails;
 import com.kaishengit.exception.ServiceException;
+import com.kaishengit.mapper.RoleMapper;
+import com.kaishengit.mapper.UserLogMapper;
+import com.kaishengit.mapper.UserMapper;
+import com.kaishengit.pojo.Role;
 import com.kaishengit.pojo.User;
 import com.kaishengit.pojo.UserLog;
+import com.kaishengit.security.SecurityUtil;
 import com.kaishengit.service.UserService;
-import com.kaishengit.shiro.ShiroUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,66 +23,62 @@ import java.util.Set;
  * Created by sunny on 2017/3/15.
  */
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
     @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
     @Autowired
-    private UserLogDao logDao;
+    private UserLogMapper logMapper;
     @Value("${password.salt}")
     private String salt;
 
     @Override
-    @Transactional(readOnly = true)
     public List<User> findAll() {
-        return userDao.findAll();
+        return userMapper.findAll();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public User findById(Integer id) {
-        return userDao.findById(id);
+        return userMapper.findById(id);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public User findByUserName(String userName) {
-        return userDao.findByUserName(userName);
+        return userMapper.findByUserName(userName);
     }
 
     @Override
     public void save(User user) {
         user.setPassword(DigestUtils.md5Hex(user.getPassword() + salt));
-        userDao.saveOrUpdate(user);
+        userMapper.save(user);
     }
 
     @Override
     public void resetUserPassword(Integer id) {
-        User user = userDao.findById(id);
+        User user = userMapper.findById(id);
         user.setPassword(DigestUtils.md5Hex(User.PASSWORD0 + salt));
-        userDao.saveOrUpdate(user);
+        userMapper.update(user);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Long count() {
-        return userDao.count();
+        return userMapper.count();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<User> findLimit(Integer start, Integer length) {
-        return userDao.findLimit(start, length);
+        return userMapper.findPage(start, length);
     }
 
     @Override
     public void update(User user) {
-        userDao.saveOrUpdate(user);
+        userMapper.update(user);
     }
 
     @Override
     public void updateNoPassword(User user) {
-        userDao.updateNotNull(user);
+        userMapper.update(user);
     }
 
     /**
@@ -93,19 +92,16 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public List<User> findLimitUserOrRealName(Integer start, Integer length, String name) {
-        if (name.isEmpty()) {
-            return userDao.findLimit(start, length);
-        } else {
-            return userDao.findLimitUserOrRealName(start, length, name);
-        }
+        name = "%" + name + "%";
+        return userMapper.findPageUserOrRealName(start, length, name);
     }
 
     @Override
     public void settingUserPassword(String oldPassword, String newPassword) {
-        User user = ShiroUtil.getCurrentUser();
+        User user = SecurityUtil.getCurrentUser();
         if (user.getPassword().equals(DigestUtils.md5Hex(oldPassword + salt))) {
             user.setPassword(DigestUtils.md5Hex(newPassword + salt));
-            userDao.update(user);
+            userMapper.update(user);
         } else {
             throw new ServiceException("原始密码错误，修改失败");
         }
@@ -113,24 +109,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Long countWithUser() {
-        return Long.valueOf(userDao.findById(ShiroUtil.getCurrentUserId()).getUserLogList().size());
+        //TODO
+        return null;
+//        return Long.valueOf(userMapper.findById(ShiroUtil.getCurrentUserId()).getUserLogList().size());
     }
 
     @Override
-    public void addLoginLog(String ip) {
-        Integer userId = ShiroUtil.getCurrentUserId();
-        UserLog userLog = new UserLog(ip, userId);
-        logDao.save(userLog);
+    public void addLoginLog(String ip,Integer userId) {
+        logMapper.save(new UserLog(ip, userId));
     }
 
     @Override
     public Set<UserLog> findUserLoginLog() {
-        return userDao.findById(ShiroUtil.getCurrentUserId()).getUserLogList();
+        //TODO
+        return null;
+//        return userMapper.findById(ShiroUtil.getCurrentUserId()).getUserLogList();
     }
 
     @Override
     public List<UserLog> findUserLoginLog(Integer start, Integer length) {
-        return logDao.findByUserIdWithPage(start, length, ShiroUtil.getCurrentUserId());
+        Integer id = 1;
+        return logMapper.findByUserIdWithPage(start, length, id);
+    }
+
+    @Override
+    public Role findRoleByUserId(Integer id) {
+        return userMapper.findRoleByUserId(id);
     }
 
 }

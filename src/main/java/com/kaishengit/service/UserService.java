@@ -1,5 +1,7 @@
 package com.kaishengit.service;
 
+import com.kaishengit.dto.MyUserDetails;
+import com.kaishengit.pojo.Role;
 import com.kaishengit.pojo.User;
 import com.kaishengit.pojo.UserLog;
 
@@ -35,9 +37,12 @@ public interface UserService {
 
     Long countWithUser();
 
-    void addLoginLog(String ip);
+    void addLoginLog(String ip, Integer userId);
 
     Set<UserLog> findUserLoginLog();
 
     List<UserLog> findUserLoginLog(Integer start, Integer length);
+
+    Role findRoleByUserId(Integer id);
+
 }
